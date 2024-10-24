@@ -19,32 +19,38 @@ mixin _$CurrencyConverterEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
+    required TResult Function() getCurrencyList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
+    TResult? Function()? getCurrencyList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function()? getCurrencyList,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
+    required TResult Function(_GetCurrencyList value) getCurrencyList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
+    TResult? Function(_GetCurrencyList value)? getCurrencyList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
+    TResult Function(_GetCurrencyList value)? getCurrencyList,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -108,6 +114,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
+    required TResult Function() getCurrencyList,
   }) {
     return started();
   }
@@ -116,6 +123,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
+    TResult? Function()? getCurrencyList,
   }) {
     return started?.call();
   }
@@ -124,6 +132,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function()? getCurrencyList,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -136,6 +145,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
+    required TResult Function(_GetCurrencyList value) getCurrencyList,
   }) {
     return started(this);
   }
@@ -144,6 +154,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
+    TResult? Function(_GetCurrencyList value)? getCurrencyList,
   }) {
     return started?.call(this);
   }
@@ -152,6 +163,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
+    TResult Function(_GetCurrencyList value)? getCurrencyList,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -166,12 +178,114 @@ abstract class _Started implements CurrencyConverterEvent {
 }
 
 /// @nodoc
+abstract class _$$GetCurrencyListImplCopyWith<$Res> {
+  factory _$$GetCurrencyListImplCopyWith(_$GetCurrencyListImpl value,
+          $Res Function(_$GetCurrencyListImpl) then) =
+      __$$GetCurrencyListImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GetCurrencyListImplCopyWithImpl<$Res>
+    extends _$CurrencyConverterEventCopyWithImpl<$Res, _$GetCurrencyListImpl>
+    implements _$$GetCurrencyListImplCopyWith<$Res> {
+  __$$GetCurrencyListImplCopyWithImpl(
+      _$GetCurrencyListImpl _value, $Res Function(_$GetCurrencyListImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$GetCurrencyListImpl implements _GetCurrencyList {
+  const _$GetCurrencyListImpl();
+
+  @override
+  String toString() {
+    return 'CurrencyConverterEvent.getCurrencyList()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$GetCurrencyListImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() getCurrencyList,
+  }) {
+    return getCurrencyList();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? getCurrencyList,
+  }) {
+    return getCurrencyList?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? getCurrencyList,
+    required TResult orElse(),
+  }) {
+    if (getCurrencyList != null) {
+      return getCurrencyList();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_GetCurrencyList value) getCurrencyList,
+  }) {
+    return getCurrencyList(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_GetCurrencyList value)? getCurrencyList,
+  }) {
+    return getCurrencyList?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_GetCurrencyList value)? getCurrencyList,
+    required TResult orElse(),
+  }) {
+    if (getCurrencyList != null) {
+      return getCurrencyList(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetCurrencyList implements CurrencyConverterEvent {
+  const factory _GetCurrencyList() = _$GetCurrencyListImpl;
+}
+
+/// @nodoc
 mixin _$CurrencyConverterState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() currency,
+    required TResult Function(RateResponseModel rateModel) currency,
     required TResult Function(String errorMessage) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -179,7 +293,7 @@ mixin _$CurrencyConverterState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? currency,
+    TResult? Function(RateResponseModel rateModel)? currency,
     TResult? Function(String errorMessage)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -187,7 +301,7 @@ mixin _$CurrencyConverterState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? currency,
+    TResult Function(RateResponseModel rateModel)? currency,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) =>
@@ -278,7 +392,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() currency,
+    required TResult Function(RateResponseModel rateModel) currency,
     required TResult Function(String errorMessage) error,
   }) {
     return initial();
@@ -289,7 +403,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? currency,
+    TResult? Function(RateResponseModel rateModel)? currency,
     TResult? Function(String errorMessage)? error,
   }) {
     return initial?.call();
@@ -300,7 +414,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? currency,
+    TResult Function(RateResponseModel rateModel)? currency,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
@@ -392,7 +506,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() currency,
+    required TResult Function(RateResponseModel rateModel) currency,
     required TResult Function(String errorMessage) error,
   }) {
     return loading();
@@ -403,7 +517,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? currency,
+    TResult? Function(RateResponseModel rateModel)? currency,
     TResult? Function(String errorMessage)? error,
   }) {
     return loading?.call();
@@ -414,7 +528,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? currency,
+    TResult Function(RateResponseModel rateModel)? currency,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
@@ -471,6 +585,10 @@ abstract class _$$CurrencyImplCopyWith<$Res> {
   factory _$$CurrencyImplCopyWith(
           _$CurrencyImpl value, $Res Function(_$CurrencyImpl) then) =
       __$$CurrencyImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({RateResponseModel rateModel});
+
+  $RateResponseModelCopyWith<$Res> get rateModel;
 }
 
 /// @nodoc
@@ -480,36 +598,69 @@ class __$$CurrencyImplCopyWithImpl<$Res>
   __$$CurrencyImplCopyWithImpl(
       _$CurrencyImpl _value, $Res Function(_$CurrencyImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rateModel = null,
+  }) {
+    return _then(_$CurrencyImpl(
+      rateModel: null == rateModel
+          ? _value.rateModel
+          : rateModel // ignore: cast_nullable_to_non_nullable
+              as RateResponseModel,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RateResponseModelCopyWith<$Res> get rateModel {
+    return $RateResponseModelCopyWith<$Res>(_value.rateModel, (value) {
+      return _then(_value.copyWith(rateModel: value));
+    });
+  }
 }
 
 /// @nodoc
 
 class _$CurrencyImpl implements _Currency {
-  const _$CurrencyImpl();
+  const _$CurrencyImpl({required this.rateModel});
+
+  @override
+  final RateResponseModel rateModel;
 
   @override
   String toString() {
-    return 'CurrencyConverterState.currency()';
+    return 'CurrencyConverterState.currency(rateModel: $rateModel)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$CurrencyImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$CurrencyImpl &&
+            (identical(other.rateModel, rateModel) ||
+                other.rateModel == rateModel));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, rateModel);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CurrencyImplCopyWith<_$CurrencyImpl> get copyWith =>
+      __$$CurrencyImplCopyWithImpl<_$CurrencyImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() currency,
+    required TResult Function(RateResponseModel rateModel) currency,
     required TResult Function(String errorMessage) error,
   }) {
-    return currency();
+    return currency(rateModel);
   }
 
   @override
@@ -517,10 +668,10 @@ class _$CurrencyImpl implements _Currency {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? currency,
+    TResult? Function(RateResponseModel rateModel)? currency,
     TResult? Function(String errorMessage)? error,
   }) {
-    return currency?.call();
+    return currency?.call(rateModel);
   }
 
   @override
@@ -528,12 +679,12 @@ class _$CurrencyImpl implements _Currency {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? currency,
+    TResult Function(RateResponseModel rateModel)? currency,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
     if (currency != null) {
-      return currency();
+      return currency(rateModel);
     }
     return orElse();
   }
@@ -577,7 +728,13 @@ class _$CurrencyImpl implements _Currency {
 }
 
 abstract class _Currency implements CurrencyConverterState {
-  const factory _Currency() = _$CurrencyImpl;
+  const factory _Currency({required final RateResponseModel rateModel}) =
+      _$CurrencyImpl;
+
+  RateResponseModel get rateModel;
+  @JsonKey(ignore: true)
+  _$$CurrencyImplCopyWith<_$CurrencyImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -647,7 +804,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() currency,
+    required TResult Function(RateResponseModel rateModel) currency,
     required TResult Function(String errorMessage) error,
   }) {
     return error(errorMessage);
@@ -658,7 +815,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? currency,
+    TResult? Function(RateResponseModel rateModel)? currency,
     TResult? Function(String errorMessage)? error,
   }) {
     return error?.call(errorMessage);
@@ -669,7 +826,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? currency,
+    TResult Function(RateResponseModel rateModel)? currency,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {

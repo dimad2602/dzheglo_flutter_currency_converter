@@ -1,7 +1,9 @@
+import 'package:dzheglo_flutter_currency_converter/domain/blocs/currency_converter/currency_converter_bloc.dart';
 import 'package:dzheglo_flutter_currency_converter/pages/ATMs_page/atms_page.dart';
 import 'package:dzheglo_flutter_currency_converter/pages/main_page/main_page.dart';
 import 'package:dzheglo_flutter_currency_converter/pages/moneybox_page/moneybox_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -34,19 +36,26 @@ class _MainPageState extends State<NavigationPage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Главная',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: 'Копилка',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile',
+            label: 'Банкоматы',
           ),
         ],
         currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        onTap: (int i) {
+          i == 0
+              ? context
+                  .read<CurrencyConverterBloc>()
+                  .add(const CurrencyConverterEvent.started())
+              : null;
+          _onItemTapped(i);
+        },
       ),
     );
   }

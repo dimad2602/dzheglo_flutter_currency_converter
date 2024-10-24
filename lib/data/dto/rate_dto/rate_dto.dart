@@ -1,5 +1,5 @@
 import 'package:decimal/decimal.dart';
-import 'package:dzheglo_flutter_currency_converter/models/rate_model.dart';
+import 'package:dzheglo_flutter_currency_converter/models/rate/rate_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'rate_dto.freezed.dart';
