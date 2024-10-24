@@ -1,5 +1,6 @@
 import 'package:dzheglo_flutter_currency_converter/domain/blocs/currency_converter/currency_converter_bloc.dart';
 import 'package:dzheglo_flutter_currency_converter/pages/main_page/main_complite_ui.dart';
+import 'package:dzheglo_flutter_currency_converter/pages/main_page/main_error_ui.dart';
 import 'package:dzheglo_flutter_currency_converter/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,12 +33,23 @@ class _MainPageState extends State<MainPage> {
         ),
         body: BlocBuilder<CurrencyConverterBloc, CurrencyConverterState>(
           builder: (context, state) {
-            return state.map(
-                initial: (_) => const SizedBox.shrink(),
-                loading: (_) =>
-                    const Center(child: CircularProgressIndicator()),
-                currency: (_) => const MainCompliteUi(),
-                error: (_) => const Center(child: CircularProgressIndicator()));
+            return state.when(
+              initial: () {
+                return const SizedBox.shrink();
+              },
+              loading: () {
+                return const Center(child: CircularProgressIndicator());
+              },
+              currency: (rateModel, convertedAmount) {
+                return MainCompliteUi(
+                  rateModel: rateModel,
+                  convertedAmount: convertedAmount,
+                );
+              },
+              error: (errorMassage) {
+                return const ErrorUi();
+              },
+            );
           },
         ));
   }

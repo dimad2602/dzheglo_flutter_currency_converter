@@ -11,7 +11,7 @@ class CurrencyRepo implements ICurrencyRepository {
   final Dio dio = Dio();
 
   final String apURL = 'https://currate.ru/api/';
-  final String firstPairs = 'USDRUB';
+  final String firstPairs = 'RUBUSD,USDRUB';
   final String getRates = 'rates';
   final String getCurrencyList = 'currency_list';
   final String key = 'b049651535ce79b0ec4edab354f62d6f';

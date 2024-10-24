@@ -24,7 +24,7 @@ class _MainPageState extends State<NavigationPage> {
   final List _pages = [
     const MainPage(),
     const AtmsPage(),
-    const MoneyboxPage(),
+    const MoneyBoxPage(),
   ];
 
   @override
@@ -40,11 +40,11 @@ class _MainPageState extends State<NavigationPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Копилка',
+            label: 'Банкоматы',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Банкоматы',
+            label: 'Копилка',
           ),
         ],
         currentIndex: _selectedIndex,

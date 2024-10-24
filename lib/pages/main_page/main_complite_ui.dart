@@ -1,12 +1,19 @@
+import 'package:dzheglo_flutter_currency_converter/domain/blocs/currency_converter/currency_converter_bloc.dart';
 import 'package:dzheglo_flutter_currency_converter/models/currency/currency_model.dart';
+import 'package:dzheglo_flutter_currency_converter/models/rate/rate_model.dart';
 import 'package:dzheglo_flutter_currency_converter/utils/app_colors.dart';
 import 'package:dzheglo_flutter_currency_converter/widgets/convert_widgets/currency_field.dart';
-import 'package:dzheglo_flutter_currency_converter/widgets/convert_widgets/select_currency.dart';
+import 'package:dzheglo_flutter_currency_converter/widgets/convert_widgets/select_currency_sheet.dart';
 import 'package:dzheglo_flutter_currency_converter/widgets/convert_widgets/tab_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainCompliteUi extends StatefulWidget {
-  const MainCompliteUi({super.key});
+  final List<RateModel> rateModel;
+  final double? convertedAmount;
+  const MainCompliteUi(
+      {super.key, required this.rateModel, this.convertedAmount});
 
   @override
   State<MainCompliteUi> createState() => _MainCompliteUiState();
@@ -14,6 +21,7 @@ class MainCompliteUi extends StatefulWidget {
 
 class _MainCompliteUiState extends State<MainCompliteUi> {
   int _selectedTabIndex = 0;
+  double inputAmount = 0.0;
 
   List<CurrencyModel> currencies = [
     const CurrencyModel(
@@ -30,23 +38,41 @@ class _MainCompliteUiState extends State<MainCompliteUi> {
     const CurrencyModel(code: 'KGS', name: 'Киргизский сом', countryCode: 'kg'),
   ];
 
+  late TextEditingController _amountController;
+
+  @override
+  void initState() {
+    super.initState();
+    _amountController = TextEditingController(text: inputAmount.toString());
+  }
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TabSwitcher(
-          selectedTabIndex: _selectedTabIndex,
-          onTabChanged: (index) {
-            setState(() {
-              _selectedTabIndex = index;
-            });
-          },
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          child: TabSwitcher(
+            selectedTabIndex: _selectedTabIndex,
+            onTabChanged: (index) {
+              setState(() {
+                _selectedTabIndex = index;
+              });
+            },
+          ),
         ),
-
         const Align(
             alignment: AlignmentDirectional.topStart,
-            child: Text("Конвертер валют")),
-        // Контейнер с информационным сообщением
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text("Конвертер валют"),
+            )),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
           child: Container(
@@ -71,8 +97,8 @@ class _MainCompliteUiState extends State<MainCompliteUi> {
         ),
         Stack(
           children: [
-            Container(
-              height: 300, // Задаем фиксированную высоту для Stack
+            SizedBox(
+              height: 300,
               child: Stack(
                 children: [
                   Positioned(
@@ -81,13 +107,30 @@ class _MainCompliteUiState extends State<MainCompliteUi> {
                     right: 0,
                     child: CurrencyField(
                       labelText: "Хочу обменять:",
-                      amount: "5000",
-                      currency: "RUR",
-                      rateInfo: "1 RUR = 90.4217 USD",
+                      controller: _amountController,
+                      currency: widget.rateModel[0].currency.substring(0, 3),
+                      rateInfo:
+                          "1 ${widget.rateModel[0].currency.substring(0, 3)} = ${widget.rateModel[0].rate.toStringAsFixed(4)} ${widget.rateModel[1].currency.substring(0, 3)}", // Округленный курс
                       color: AppColors.lightBlueColor,
                       countryCode: 'ru',
                       onCurrencySelected: () {
-                        showCurrencyBottomSheet(context, currencies);
+                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text(
+                                'Обмен возможен только в одну сторону, рубли -> иностранная валюта')));
+                      },
+                      onAmountChanged: (value) {
+                        double? amount = double.tryParse(value);
+                        if (amount != null) {
+                          final double rate =
+                              widget.rateModel[0].rate.toDouble();
+                          context.read<CurrencyConverterBloc>().add(
+                                CurrencyConverterEvent.convertAmounChanged(
+                                  amount: amount,
+                                  rate: rate,
+                                ),
+                              );
+                        }
                       },
                     ),
                   ),
@@ -96,25 +139,36 @@ class _MainCompliteUiState extends State<MainCompliteUi> {
                     left: 0,
                     right: 0,
                     child: CurrencyField(
+                      readOnly: true,
                       labelText: "Вы получите:",
-                      amount: "55.2965",
-                      currency: "USD",
-                      rateInfo: "1 USD = 0.0111 RUR",
+                      amount:
+                          "${widget.convertedAmount != null ? widget.convertedAmount!.toStringAsFixed(4) : 0.0}",
+                      currency: widget.rateModel[1].currency.substring(0, 3),
+                      rateInfo:
+                          "1 ${widget.rateModel[1].currency.substring(0, 3)} = ${widget.rateModel[1].rate.toStringAsFixed(4)} ${widget.rateModel[0].currency.substring(0, 3)}",
                       color: AppColors.lightPurpleColor,
                       countryCode: 'us',
                       onCurrencySelected: () {
                         showCurrencyBottomSheet(context, currencies);
                       },
+                      onAmountChanged: (value) {
+                      },
                     ),
                   ),
                   Positioned(
                     top: 125,
-                    left: MediaQuery.of(context).size.width / 2 -
-                        20, // Центруем иконку
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.swap_vertical_circle_rounded,
-                          size: 40, color: Colors.blue.shade700),
+                    left: MediaQuery.of(context).size.width / 2 - 20,
+                    child: GestureDetector(
+                      onTap: () {
+                        context.read<CurrencyConverterBloc>().add(
+                              const CurrencyConverterEvent.swapCurrency(),
+                            );
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.swap_vertical_circle_rounded,
+                            size: 40, color: Colors.blue.shade700),
+                      ),
                     ),
                   ),
                 ],

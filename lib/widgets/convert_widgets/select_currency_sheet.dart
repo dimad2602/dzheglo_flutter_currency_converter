@@ -1,5 +1,6 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:dzheglo_flutter_currency_converter/models/currency/currency_model.dart';
+import 'package:dzheglo_flutter_currency_converter/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 void showCurrencyBottomSheet(
@@ -11,7 +12,7 @@ void showCurrencyBottomSheet(
     backgroundColor: Colors.transparent,
     builder: (context) {
       return Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
@@ -22,14 +23,14 @@ void showCurrencyBottomSheet(
           children: [
             Row(
               children: [
-                Expanded(
+                const Expanded(
                   child: Text(
                     "Выберите валюту",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.close_rounded),
+                  icon: const Icon(Icons.close_rounded),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -41,7 +42,6 @@ void showCurrencyBottomSheet(
                 itemCount: currencies.length,
                 itemBuilder: (context, index) {
                   final currency = currencies[index];
-                  print(currency.countryCode);
                   return ListTile(
                     leading: CountryFlag.fromCountryCode(
                       currency.countryCode,
@@ -51,7 +51,7 @@ void showCurrencyBottomSheet(
                     trailing: Radio(
                       value: currency.code,
                       groupValue:
-                          selectedCurrencyCode, // Текущая выбранная валюта
+                          selectedCurrencyCode, 
                       onChanged: (value) {
                         // setState(() {
                         //   selectedCurrencyCode = value.toString();
@@ -67,12 +67,22 @@ void showCurrencyBottomSheet(
                 },
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                // Логика для применения выбранной валюты
-                Navigator.pop(context);
-              },
-              child: Text("Применить"),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              height: 50,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: AppColors.buttonBlueColor),
+              child: const Center(
+                child: Text(
+                  "Применить",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
