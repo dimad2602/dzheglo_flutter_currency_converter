@@ -1,7 +1,11 @@
+import 'package:dzheglo_flutter_currency_converter/components/text/my_text.dart';
+import 'package:dzheglo_flutter_currency_converter/domain/blocs/currency_converter/currency_converter_bloc.dart';
 import 'package:dzheglo_flutter_currency_converter/utils/app_colors.dart';
 import 'package:dzheglo_flutter_currency_converter/widgets/convert_widgets/tab_switcher.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ErrorUi extends StatefulWidget {
   const ErrorUi({super.key});
@@ -28,15 +32,15 @@ class _ErrorUiState extends State<ErrorUi> {
               },
             ),
           ),
-          const Align(
+           Align(
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text("Конвертер валют"),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: MyText(text: "Конвертер валют", bold: true, size: 32.h,),
             ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            margin:  EdgeInsets.symmetric(horizontal: 16.h, vertical: 10.w),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -47,16 +51,21 @@ class _ErrorUiState extends State<ErrorUi> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(15),
             ),
-            child: const Row(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.info_outline, color: AppColors.alertIconRedColor),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(
+                SvgPicture.asset(
+                  'assets/icons/message_icon.svg',
+                ),
+                const SizedBox(width: 10),
+                 Expanded(
+                  child: MyText(
+                    text: 
                     'Не удалось получить обменные курсы валют. Повторите запрос позже.',
+                    maxLines: 10,
+                    size: 17.h,
                   ),
                 ),
               ],
@@ -65,19 +74,25 @@ class _ErrorUiState extends State<ErrorUi> {
           const SizedBox(
             height: 12,
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            height: 50,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12), // Скругление кнопок
-                border: Border.all(color: AppColors.buttonRedColor)),
-            child: const Center(
-              child: Text(
-                "Повторить",
-                style: TextStyle(
-                  color: Colors.black, // Белый текст для выбранной кнопки,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+          GestureDetector(
+            onTap: () {
+              context
+                  .read<CurrencyConverterBloc>()
+                  .add(const CurrencyConverterEvent.started());
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              height: 50,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15), // Скругление кнопок
+                  border: Border.all(color: AppColors.buttonRedColor)),
+              child:  Center(
+                child: Text(
+                  "Повторить",
+                  style: TextStyle(
+                    color: Colors.black, 
+                    fontSize: 24.h,
+                  ),
                 ),
               ),
             ),

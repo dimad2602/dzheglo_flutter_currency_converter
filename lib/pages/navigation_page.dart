@@ -2,8 +2,10 @@ import 'package:dzheglo_flutter_currency_converter/domain/blocs/currency_convert
 import 'package:dzheglo_flutter_currency_converter/pages/ATMs_page/atms_page.dart';
 import 'package:dzheglo_flutter_currency_converter/pages/main_page/main_page.dart';
 import 'package:dzheglo_flutter_currency_converter/pages/moneybox_page/moneybox_page.dart';
+import 'package:dzheglo_flutter_currency_converter/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -32,28 +34,54 @@ class _MainPageState extends State<NavigationPage> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: AppColors.selectedIconColor,
+        unselectedItemColor: AppColors.textLightGreyColor,
         type: BottomNavigationBarType.fixed,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: SvgPicture.asset(
+              'assets/icons/main_page_icon.svg',
+              colorFilter: ColorFilter.mode(
+                _selectedIndex == 0
+                    ? AppColors.selectedIconColor
+                    : AppColors.textLightGreyColor,
+                BlendMode.srcIn,
+              ),
+            ),
             label: 'Главная',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+            icon: SvgPicture.asset(
+              'assets/icons/atms_page_icon.svg',
+              colorFilter: ColorFilter.mode(
+                _selectedIndex == 1
+                    ? AppColors.selectedIconColor
+                    : AppColors.textLightGreyColor,
+                BlendMode.srcIn,
+              ),
+            ),
             label: 'Банкоматы',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: SvgPicture.asset(
+              'assets/icons/money_box_page_icon.svg',
+              colorFilter: ColorFilter.mode(
+                _selectedIndex == 2
+                    ? AppColors.selectedIconColor
+                    : AppColors.textLightGreyColor,
+                BlendMode.srcIn,
+              ),
+            ),
             label: 'Копилка',
           ),
         ],
         currentIndex: _selectedIndex,
         onTap: (int i) {
-          i == 0
-              ? context
-                  .read<CurrencyConverterBloc>()
-                  .add(const CurrencyConverterEvent.started())
-              : null;
+          if (i == 0) {
+            context
+                .read<CurrencyConverterBloc>()
+                .add(const CurrencyConverterEvent.started());
+          }
           _onItemTapped(i);
         },
       ),

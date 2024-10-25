@@ -1,12 +1,14 @@
-import 'package:country_flags/country_flags.dart';
+import 'package:dzheglo_flutter_currency_converter/components/text/my_text.dart';
 import 'package:dzheglo_flutter_currency_converter/domain/blocs/currency_converter/currency_converter_bloc.dart';
 import 'package:dzheglo_flutter_currency_converter/models/currency/currency_model.dart';
 import 'package:dzheglo_flutter_currency_converter/models/currency_selected/currency_selected_model.dart';
 import 'package:dzheglo_flutter_currency_converter/models/rate/rate_model.dart';
 import 'package:dzheglo_flutter_currency_converter/utils/app_colors.dart';
+import 'package:dzheglo_flutter_currency_converter/widgets/currency_sheet_widgets/currency_card_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 void showCurrencyBottomSheet(
     {required BuildContext context,
@@ -32,49 +34,48 @@ void showCurrencyBottomSheet(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(state.rateModel.toString()),
                   Row(
                     children: [
-                      const Expanded(
-                        child: Text(
-                          "Выберите валюту",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                      Expanded(
+                        child: MyText(
+                          text: "Выберите валюту",
+                          bold: true,
+                          fontWeight: FontWeight.w600,
+                          size: 24.h,
                         ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.close_rounded),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: SvgPicture.asset(
+                          'assets/icons/close_icon.svg',
+                          height: 20.h,
+                        ),
                       ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 12,
                   ),
                   Expanded(
                     child: ListView.builder(
                       itemCount: currencies.length,
                       itemBuilder: (context, index) {
                         final currency = currencies[index];
-                        return ListTile(
-                          leading: CountryFlag.fromCountryCode(
-                            currency.countryCode,
-                            shape: const Circle(),
-                          ),
-                          title: Text('${currency.code} / ${currency.name}'),
-                          trailing: Radio(
-                            value: currency.code,
-                            groupValue: selectedCurrencyCode,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedCurrencyCode = value.toString();
-                              });
-                            },
-                          ),
-                          onTap: () {
-                            setState(() {
-                              selectedCurrencyCode = currency.code;
-                            });
-                          },
+                        return Column(
+                          children: [
+                            CurrencyCard(
+                              currencyCode: currency.code,
+                              currencyName: currency.name,
+                              countryCode: currency.countryCode,
+                              isSelected: currency.code == selectedCurrencyCode,
+                              onTap: () {
+                                setState(() {
+                                  selectedCurrencyCode = currency.code;
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 12),
+                          ],
                         );
                       },
                     ),
@@ -95,14 +96,12 @@ void showCurrencyBottomSheet(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           color: AppColors.buttonBlueColor),
-                      child: const Center(
-                        child: Text(
-                          "Применить",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      child: Center(
+                        child: MyText(
+                          text: "Применить",
+                          size: 18.h,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
                         ),
                       ),
                     ),

@@ -1,5 +1,6 @@
 import 'package:dzheglo_flutter_currency_converter/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TabSwitcher extends StatelessWidget {
   final int selectedTabIndex;
@@ -14,10 +15,10 @@ class TabSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(4),
+      padding:  EdgeInsets.all(4.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(30.h),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -43,9 +44,9 @@ class TabSwitcher extends StatelessWidget {
           onTabChanged(index); // Обработка нажатия на кнопку
         },
         child: Container(
-          height: 50,
+          height: 50.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(30.h),
             color: selectedTabIndex == index
                 ? AppColors.buttonRedColor
                 : Colors.white,
@@ -57,7 +58,7 @@ class TabSwitcher extends StatelessWidget {
                 color: selectedTabIndex == index
                     ? Colors.white
                     : AppColors.textGreyColor,
-                fontSize: 16,
+                fontSize: 19.h,
                 fontWeight: FontWeight.bold,
               ),
             ),

@@ -1,6 +1,9 @@
 import 'package:country_flags/country_flags.dart';
+import 'package:dzheglo_flutter_currency_converter/components/text/my_text.dart';
+import 'package:dzheglo_flutter_currency_converter/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CurrencyField extends StatelessWidget {
   final String labelText;
@@ -31,24 +34,32 @@ class CurrencyField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Container(
+        height: 139.h,
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.only(left: 12, top: 12.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(labelText, style: const TextStyle(fontSize: 16)),
+              MyText(
+                text: labelText,
+                size: 18.h,
+                color: AppColors.textGreyColor,
+              ),
+              const SizedBox(
+                height: 4,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: 50,
-                    width: 150,
+                    height: 50.h,
+                    width: 230.w,
                     child: TextField(
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.digitsOnly,
@@ -60,23 +71,24 @@ class CurrencyField extends StatelessWidget {
                         fillColor: Colors.white,
                         filled: true,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide.none,
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 12, horizontal: 16),
                       ),
                       keyboardType: TextInputType.number,
-                      style: const TextStyle(fontSize: 20),
+                      style: TextStyle(
+                          fontSize: 29.h, fontWeight: FontWeight.bold),
                       onChanged: onAmountChanged,
                     ),
                   ),
-                  const SizedBox(width: 12),
                   GestureDetector(
                     onTap: onCurrencySelected,
                     child: Container(
-                      height: 50,
-                      width: 115,
+                      margin: EdgeInsets.only(right: 18.w),
+                      height: 50.h,
+                      width: 115.w,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
@@ -85,7 +97,7 @@ class CurrencyField extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CountryFlag.fromCountryCode(
-                            width: 26,
+                            width: 26.h,
                             countryCode,
                             shape: const Circle(),
                           ),
@@ -99,7 +111,12 @@ class CurrencyField extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 5),
-              Text(rateInfo, style: TextStyle(color: Colors.grey.shade700)),
+              MyText(
+                text: rateInfo,
+                color: AppColors.textGreyColor,
+                size: 17.h,
+                italics: true,
+              ),
             ],
           ),
         ),
