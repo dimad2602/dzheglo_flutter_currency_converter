@@ -219,10 +219,10 @@ class _MainCompliteUiState extends State<MainCompliteUi> {
                                     const CurrencyConverterEvent.swapCurrency(),
                                   );
                             },
-                            child: const CircleAvatar(
-                              backgroundColor: Colors.white,
-                              child: Icon(Icons.swap_vertical_circle_rounded,
-                                  size: 50, color: AppColors.buttonBlueColor),
+                            child: SvgPicture.asset(
+                              'assets/icons/swap_icon.svg',
+                              height: 50.h,
+                              width: 50.h,
                             ),
                           ),
                         ),
@@ -236,8 +236,7 @@ class _MainCompliteUiState extends State<MainCompliteUi> {
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: MyText(
-              text:
-              'Данные за 2023-07-18 15:42:18 GMT+03:00',
+              text: 'Данные за 2023-07-18 15:42:18 GMT+03:00',
               maxLines: 4,
               color: AppColors.textGreyColor,
               size: 19.h,
