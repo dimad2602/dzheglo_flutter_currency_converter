@@ -1,5 +1,6 @@
 import 'package:dzheglo_flutter_currency_converter/domain/blocs/currency_converter/currency_converter_bloc.dart';
 import 'package:dzheglo_flutter_currency_converter/models/currency/currency_model.dart';
+import 'package:dzheglo_flutter_currency_converter/models/currency_selected/currency_selected_model.dart';
 import 'package:dzheglo_flutter_currency_converter/models/rate/rate_model.dart';
 import 'package:dzheglo_flutter_currency_converter/utils/app_colors.dart';
 import 'package:dzheglo_flutter_currency_converter/widgets/convert_widgets/currency_field.dart';
@@ -10,10 +11,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainCompliteUi extends StatefulWidget {
+  final double amount;
   final List<RateModel> rateModel;
   final double? convertedAmount;
+  final CurrencySelectedModel currencySelected;
   const MainCompliteUi(
-      {super.key, required this.rateModel, this.convertedAmount});
+      {super.key,
+      required this.rateModel,
+      this.convertedAmount,
+      required this.currencySelected,
+      required this.amount});
 
   @override
   State<MainCompliteUi> createState() => _MainCompliteUiState();
@@ -21,11 +28,10 @@ class MainCompliteUi extends StatefulWidget {
 
 class _MainCompliteUiState extends State<MainCompliteUi> {
   int _selectedTabIndex = 0;
-  double inputAmount = 0.0;
 
   List<CurrencyModel> currencies = [
-    const CurrencyModel(
-        code: 'RUR', name: 'Российский рубль', countryCode: 'ru'),
+    // const CurrencyModel(
+    //     code: 'RUR', name: 'Российский рубль', countryCode: 'ru'),
     const CurrencyModel(code: 'USD', name: 'Доллар США', countryCode: 'us'),
     const CurrencyModel(code: 'EUR', name: 'Евро', countryCode: 'eu'),
     const CurrencyModel(
@@ -43,7 +49,7 @@ class _MainCompliteUiState extends State<MainCompliteUi> {
   @override
   void initState() {
     super.initState();
-    _amountController = TextEditingController(text: inputAmount.toString());
+    _amountController = TextEditingController(text: widget.amount.toString());
   }
 
   @override
@@ -52,8 +58,23 @@ class _MainCompliteUiState extends State<MainCompliteUi> {
     super.dispose();
   }
 
+  String? getCountryCodeByCurrencyCode(String currencyCode) {
+    final currency = currencies.firstWhere(
+      (c) => c.code == currencyCode,
+      orElse: () => const CurrencyModel(code: '', name: '', countryCode: ''),
+    );
+    return currency.countryCode.isNotEmpty ? currency.countryCode : null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currencyFromCode = widget.rateModel[0].currency.substring(0, 3);
+    final currencyToCode = widget.rateModel[1].currency.substring(0, 3);
+
+    final fromCountryCode =
+        getCountryCodeByCurrencyCode(currencyFromCode) ?? 'ru';
+    final toCountryCode = getCountryCodeByCurrencyCode(currencyToCode) ?? 'us';
+
     return Column(
       children: [
         Padding(
@@ -108,11 +129,11 @@ class _MainCompliteUiState extends State<MainCompliteUi> {
                     child: CurrencyField(
                       labelText: "Хочу обменять:",
                       controller: _amountController,
-                      currency: widget.rateModel[0].currency.substring(0, 3),
+                      currency: currencyFromCode,
                       rateInfo:
-                          "1 ${widget.rateModel[0].currency.substring(0, 3)} = ${widget.rateModel[0].rate.toStringAsFixed(4)} ${widget.rateModel[1].currency.substring(0, 3)}", // Округленный курс
+                          "1 $currencyFromCode = ${widget.rateModel[0].rate.toStringAsFixed(4)} $currencyToCode",
                       color: AppColors.lightBlueColor,
-                      countryCode: 'ru',
+                      countryCode: fromCountryCode,
                       onCurrencySelected: () {
                         ScaffoldMessenger.of(context).removeCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -143,16 +164,22 @@ class _MainCompliteUiState extends State<MainCompliteUi> {
                       labelText: "Вы получите:",
                       amount:
                           "${widget.convertedAmount != null ? widget.convertedAmount!.toStringAsFixed(4) : 0.0}",
-                      currency: widget.rateModel[1].currency.substring(0, 3),
+                      currency: currencyToCode,
                       rateInfo:
-                          "1 ${widget.rateModel[1].currency.substring(0, 3)} = ${widget.rateModel[1].rate.toStringAsFixed(4)} ${widget.rateModel[0].currency.substring(0, 3)}",
+                          "1 $currencyToCode = ${widget.rateModel[1].rate.toStringAsFixed(4)} $currencyFromCode",
                       color: AppColors.lightPurpleColor,
-                      countryCode: 'us',
+                      countryCode:
+                          toCountryCode, // Используем найденный код страны
                       onCurrencySelected: () {
-                        showCurrencyBottomSheet(context, currencies);
+                        showCurrencyBottomSheet(
+                            context: context,
+                            currencies: currencies,
+                            selectedCurrencyCode:
+                                widget.currencySelected.currencyCode,
+                            amount: widget.amount,
+                            rateModel: widget.rateModel);
                       },
-                      onAmountChanged: (value) {
-                      },
+                      onAmountChanged: (value) {},
                     ),
                   ),
                   Positioned(

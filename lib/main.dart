@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
             home: child,
           );
         },
-        child: NavigationPage(),
+        child: const NavigationPage(),
       ),
     );
   }

@@ -40,10 +40,12 @@ class _MainPageState extends State<MainPage> {
               loading: () {
                 return const Center(child: CircularProgressIndicator());
               },
-              currency: (rateModel, convertedAmount) {
+              currency: (amount, rateModel, currencySelected, convertedAmount) {
                 return MainCompliteUi(
+                  amount: amount,
                   rateModel: rateModel,
                   convertedAmount: convertedAmount,
+                  currencySelected: currencySelected,
                 );
               },
               error: (errorMassage) {
